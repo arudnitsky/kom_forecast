@@ -86,13 +86,13 @@ def format_wind_conditions(conditions: WindConditions, segment_deg: int) -> List
         if score_percent >= Config.QUALITY_PERCENTAGE:
             time_str = day['datetime'].strftime("%I:%M %p")
             output.append(
-                f"    {time_str} | {day['temperature']:>3.0f}° | {day['wind_speed']:>4.1f} mph from {day['wind_direction']:<3} "
+                f"    {day['icon']} | {time_str} | {day['temperature']:>3.0f}° | {day['wind_speed']:>4.1f} mph from {day['wind_direction']:<3} "
                 f"| {angle_diff:>3}° off | {score_percent:>3}% favorable"
             )
     
     return output
 
-def get_favorable_wind_conditions_for_a_segment(
+def calculate_favorable_wind_conditions_for_a_segment(
     segment_deg: int, 
     forecast_data: List[Dict[str, Any]], 
     min_wind_speed: float,
@@ -182,7 +182,8 @@ def print_segment_opportunity(segment: KOMSegment, conditions: WindConditions) -
     print("\nFavorable Winds:")
     for line in formatted_wind_conditions:
         print(line)
-    print("-" * 67)
+    # print("-" * 67)
+    print("\n" * 2)
 
 def main():
     try:
@@ -205,7 +206,7 @@ def main():
                 continue
                 
             # Updated to only pass required parameters
-            favorable_conditions = get_favorable_wind_conditions_for_a_segment(
+            favorable_conditions = calculate_favorable_wind_conditions_for_a_segment(
                 segment.get_direction_degrees(),
                 forecast_data,
                 Config.MIN_WIND_SPEED,
