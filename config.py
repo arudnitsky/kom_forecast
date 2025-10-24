@@ -4,17 +4,20 @@ import os
 class Config:
     """Configuration settings for segment wind analysis"""
 
-    # Wind conditions
+    # Wind conditions for testing
     # MIN_WIND_SPEED = 1.0  # Minimum wind speed to consider (mph)
     # DIRECTION_TOLERANCE = 50  # Maximum degrees off perfect alignment
     # QUALITY_PERCENTAGE = 0  # Minimum favorable percentage to show
+    # TOP_WIND_SPEED = 20.0  # Wind speed at which favorability caps (mph)
 
-    MIN_WIND_SPEED = 10.0       # Minimum wind speed to consider (mph)
-    DIRECTION_TOLERANCE = 15    # Maximum degrees off perfect alignment
-    QUALITY_PERCENTAGE = 50     # Minimum favorable percentage to show
+    # Wind conditions
+    MIN_WIND_SPEED = 10.0  # Minimum wind speed to consider (mph)
+    DIRECTION_TOLERANCE = 15  # Maximum degrees off perfect alignment
+    QUALITY_PERCENTAGE = 50  # Minimum favorable percentage to show
+    TOP_WIND_SPEED = 20.0  # Wind speed at which favorability caps (mph)
 
-    # Cache
-    CACHE_FILE = "forecast_cache.json"    
+    # Cached forecast file for testing
+    CACHE_FILE = "forecast_cache.json"
 
     # Location - Charlotte, MI
     LAT = 42.5702  # Latitude for weather forecast

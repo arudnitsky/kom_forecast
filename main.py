@@ -55,8 +55,8 @@ def calculate_overall_segment_favorability(
     if direction_score == 0:
         return 0
 
-    # Normalize wind speed (0-1, capped at 20mph)
-    wind_speed_score = min(wind_data["wind_speed"] / 20.0, 1.0)
+    # Normalize wind speed (0-1, capped at Config.TOP_WIND_SPEED)
+    wind_speed_score = min(wind_data["wind_speed"] / Config.TOP_WIND_SPEED, 1.0)
 
     # Weight speed more heavily than direction
     # Direction: 30%, Speed: 70%
