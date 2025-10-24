@@ -2,6 +2,7 @@ import csv
 from dataclasses import dataclass
 from typing import List
 
+
 @dataclass
 class KOMSegment:
     segment_name: str
@@ -18,43 +19,57 @@ class KOMSegment:
     def get_direction_degrees(self) -> int:
         """Convert cardinal direction to degrees"""
         direction_to_degrees = {
-            'N': 0, 'NNE': 22.5, 'NE': 45, 'ENE': 67.5,
-            'E': 90, 'ESE': 112.5, 'SE': 135, 'SSE': 157.5,
-            'S': 180, 'SSW': 202.5, 'SW': 225, 'WSW': 247.5,
-            'W': 270, 'WNW': 292.5, 'NW': 315, 'NNW': 337.5
+            "N": 0,
+            "NNE": 22.5,
+            "NE": 45,
+            "ENE": 67.5,
+            "E": 90,
+            "ESE": 112.5,
+            "SE": 135,
+            "SSE": 157.5,
+            "S": 180,
+            "SSW": 202.5,
+            "SW": 225,
+            "WSW": 247.5,
+            "W": 270,
+            "WNW": 292.5,
+            "NW": 315,
+            "NNW": 337.5,
         }
         return direction_to_degrees.get(self.direction.strip(), 0)
 
-def read_kom_list(filepath: str = 'kom-list.csv') -> List[KOMSegment]:
+
+def read_kom_list(filepath: str = "kom-list.csv") -> List[KOMSegment]:
     """
     Read and parse the KOM list CSV file.
-    
+
     Args:
         filepath: Path to the CSV file (default: 'kom-list.csv')
-        
+
     Returns:
         List of KOMSegment objects containing the parsed data
     """
     segments = []
-    
-    with open(filepath, 'r', encoding='utf-8') as csvfile:
+
+    with open(filepath, "r", encoding="utf-8") as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             segment = KOMSegment(
-                segment_name=row['Segment name'],
-                distance=row['Distance'],
-                climb=row['Climb'],
-                direction=row['Direction'],
-                kom_holder=row['KOM holder'],
-                kom_time=row['KOM Time'],
-                speed=row['Speed'],
-                my_rank=row['My Rank'],
-                my_time=row['My Time'],
-                my_speed=row['My Speed']
+                segment_name=row["Segment name"],
+                distance=row["Distance"],
+                climb=row["Climb"],
+                direction=row["Direction"],
+                kom_holder=row["KOM holder"],
+                kom_time=row["KOM Time"],
+                speed=row["Speed"],
+                my_rank=row["My Rank"],
+                my_time=row["My Time"],
+                my_speed=row["My Speed"],
             )
             segments.append(segment)
-    
+
     return segments
+
 
 # Example usage
 if __name__ == "__main__":
