@@ -13,6 +13,9 @@ class Config:
     DIRECTION_TOLERANCE = 15    # Maximum degrees off perfect alignment
     QUALITY_PERCENTAGE = 50     # Minimum favorable percentage to show
 
+    # Cache
+    CACHE_FILE = "forecast_cache.json"    
+
     # Location - Charlotte, MI
     LAT = 42.5702  # Latitude for weather forecast
     LON = -84.8352  # Longitude for weather forecast

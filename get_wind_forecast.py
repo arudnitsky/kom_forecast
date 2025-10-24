@@ -1,3 +1,4 @@
+import json
 from datetime import datetime, timedelta
 from typing import Any, Dict, List
 from zoneinfo import ZoneInfo
@@ -114,6 +115,60 @@ def get_sunrise_sunset_data(
     return sun_times
 
 
+def persist_forecast(result: List[Dict[str, Any]]) -> None:
+    """Persist forecast to JSON (datetime fields -> ISO strings)."""
+    serializable: List[Dict[str, Any]] = []
+    for item in result:
+        serializable.append(
+            {
+                **{
+                    k: v
+                    for k, v in item.items()
+                    if k not in ("datetime", "sunrise", "sunset")
+                },
+                "datetime": item["datetime"].isoformat(),
+                "sunrise": item["sunrise"].isoformat(),
+                "sunset": item["sunset"].isoformat(),
+            }
+        )
+
+    with open(Config.CACHE_FILE, "w") as f:
+        json.dump(serializable, f, indent=2)
+
+
+def reload_forecast() -> List[Dict[str, Any]]:
+    """Load persisted forecast JSON and restore timezone-aware datetimes."""
+    restored: List[Dict[str, Any]] = []
+    with open(Config.CACHE_FILE, "r") as f:
+        loaded = json.load(f)
+
+    for item in loaded:
+        dt = datetime.fromisoformat(item["datetime"]).astimezone(
+            ZoneInfo(Config.TIMEZONE)
+        )
+        sr = datetime.fromisoformat(item["sunrise"]).astimezone(
+            ZoneInfo(Config.TIMEZONE)
+        )
+        ss = datetime.fromisoformat(item["sunset"]).astimezone(
+            ZoneInfo(Config.TIMEZONE)
+        )
+
+        restored.append(
+            {
+                **{
+                    k: v
+                    for k, v in item.items()
+                    if k not in ("datetime", "sunrise", "sunset")
+                },
+                "datetime": dt,
+                "sunrise": sr,
+                "sunset": ss,
+            }
+        )
+
+    return restored
+
+
 def get_wind_forecast() -> List[Dict[str, Any]]:
     """Get wind forecast for next 5 days (single API call cnt=40) and merge sunrise/sunset from sunrisesunset.io"""
     result: List[Dict[str, Any]] = []
@@ -167,6 +222,11 @@ def get_wind_forecast() -> List[Dict[str, Any]]:
             "icon": convert_icon_code_to_emoji(period["weather"][0]["icon"]),
         }
         result.append(forecast_data)
+
+
+    # Save to cache to allow testing without repeated API calls
+    # persist_forecast(result)
+    # return reload_forecast()
 
     return result
 
