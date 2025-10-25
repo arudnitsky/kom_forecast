@@ -170,7 +170,10 @@ def reload_forecast() -> List[Dict[str, Any]]:
 
 
 def get_wind_forecast() -> List[Dict[str, Any]]:
-    """Get wind forecast for next 5 days (single API call cnt=40) and merge sunrise/sunset from sunrisesunset.io"""
+    """Get wind forecast for next 5 days. Each entry contains wind data and sunrise/sunset times for a 3-hour period."""
+
+    # return reload_forecast()
+
     result: List[Dict[str, Any]] = []
 
     # Start from tomorrow at midnight (local timezone)
@@ -209,7 +212,7 @@ def get_wind_forecast() -> List[Dict[str, Any]]:
         sunrise = sun_times[date_key]["sunrise"]
         sunset = sun_times[date_key]["sunset"]
 
-        forecast_data = {
+        forecast_for_datetime = {
             "datetime": dt,
             "date_string": dt.strftime("%Y-%m-%d %H:%M:%S %Z"),
             "wind_speed": period["wind"]["speed"],
@@ -221,22 +224,22 @@ def get_wind_forecast() -> List[Dict[str, Any]]:
             "temperature": period["main"]["temp"],
             "icon": convert_icon_code_to_emoji(period["weather"][0]["icon"]),
         }
-        result.append(forecast_data)
+        result.append(forecast_for_datetime)
 
 
     # Save to cache to allow testing without repeated API calls
-    # persist_forecast(result)
+    persist_forecast(result)
     # return reload_forecast()
 
     return result
 
 
-def print_forecast(forecast_data: List[Dict[str, Any]]) -> None:
+def print_forecast(forecast_for_datetime: List[Dict[str, Any]]) -> None:
     """Print formatted forecast data"""
     print("\nDaily Maximum Wind Speeds:")
     print("=" * 50)
 
-    for data in forecast_data:
+    for data in forecast_for_datetime:
         print(f"\n{data['date_string']}")
         print(
             f"Maximum Wind: {data['wind_speed']:>5.1f} mph from the {data['wind_direction']} ({data['wind_degrees']}°)"

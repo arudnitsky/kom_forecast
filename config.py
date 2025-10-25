@@ -11,9 +11,9 @@ class Config:
     # TOP_WIND_SPEED = 20.0  # Wind speed at which favorability caps (mph)
 
     # Wind conditions
-    MIN_WIND_SPEED = 10.0  # Minimum wind speed to consider (mph)
+    MIN_WIND_SPEED = 15.0  # Minimum wind speed to consider (mph)
     DIRECTION_TOLERANCE = 15  # Maximum degrees off perfect alignment
-    QUALITY_PERCENTAGE = 50  # Minimum favorable percentage to show
+    QUALITY_PERCENTAGE = 75  # Minimum favorable percentage to show
     TOP_WIND_SPEED = 20.0  # Wind speed at which favorability caps (mph)
 
     # Cached forecast file for testing
@@ -25,8 +25,11 @@ class Config:
     TIMEZONE = "America/New_York"  # Timezone for time calculations
 
     # Output formatting
-    SUNRISE_ICON = "☀️"  # Icon for sunrise times
-    SUNSET_ICON = "🌑"  # Icon for sunset times
+    # SUNRISE_ICON = "☀️"  # Icon for sunrise times
+    # SUNSET_ICON = "🌑"  # Icon for sunset times
+
+    SUNRISE_ICON = "🌅"  # Icon for sunrise times 
+    SUNSET_ICON = "🌌"  # Icon for sunset times 
 
     @classmethod
     def get_api_key(cls) -> str:

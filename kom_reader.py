@@ -39,7 +39,7 @@ class KOMSegment:
         return direction_to_degrees.get(self.direction.strip(), 0)
 
 
-def read_kom_list(filepath: str = "kom-list.csv") -> List[KOMSegment]:
+def read_kom_segments_from_file(filepath: str = "kom-list.csv") -> List[KOMSegment]:
     """
     Read and parse the KOM list CSV file.
 
@@ -73,7 +73,7 @@ def read_kom_list(filepath: str = "kom-list.csv") -> List[KOMSegment]:
 
 # Example usage
 if __name__ == "__main__":
-    segments = read_kom_list()
+    segments = read_kom_segments_from_file()
     for segment in segments:
         print(f"\nSegment: {segment.segment_name}")
         print(f"Distance: {segment.distance}")
