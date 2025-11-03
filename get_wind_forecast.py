@@ -1,12 +1,14 @@
 import json
 from datetime import datetime, timedelta
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Tuple, TypeAlias
 from zoneinfo import ZoneInfo
 
 import requests
 
 from config import Config
 
+WindForecast: TypeAlias = Dict[str, Any]
+FavorableWindForecast: TypeAlias = Tuple[float, WindForecast]
 
 def degrees_to_cardinal(degrees: float) -> str:
     """Convert degrees to cardinal direction"""
@@ -225,7 +227,6 @@ def get_wind_forecast() -> List[Dict[str, Any]]:
             "icon": convert_icon_code_to_emoji(period["weather"][0]["icon"]),
         }
         result.append(forecast_for_datetime)
-
 
     # Save to cache to allow testing without repeated API calls
     persist_forecast(result)

@@ -1,13 +1,10 @@
 import math
 from datetime import datetime
-from typing import Any, Dict, List, Tuple, TypeAlias
+from typing import List, Tuple
 
 from config import Config
-from get_wind_forecast import get_wind_forecast
+from get_wind_forecast import WindForecast, get_wind_forecast
 from kom_reader import KOMSegment, read_kom_segments_from_file
-
-WindForecast: TypeAlias = Dict[str, Any]
-FavorableWindForecast: TypeAlias = Tuple[float, WindForecast]
 
 
 def parse_time_to_seconds(time_str: str) -> float:
