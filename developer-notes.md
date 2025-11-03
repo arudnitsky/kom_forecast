@@ -85,3 +85,30 @@ https://api.sunrisesunset.io/json?lat=42.5702&lng=-84.8352&timezone=EDT&date_sta
     ],
     "status": "OK"
 }
+
+
+segment = KOMSegment(
+    segment_name=row["Segment name"],
+    distance=row["Distance"],
+    climb=row["Climb"],
+    direction=row["Direction"],
+    kom_holder=row["KOM holder"],
+    kom_time=row["KOM Time"],
+    speed=row["Speed"],
+    my_rank=row["My Rank"],
+    my_time=row["My Time"],
+    my_speed=row["My Speed"],
+)
+
+forecast_data = {
+    "datetime": dt,
+    "date_string": dt.strftime("%Y-%m-%d %H:%M:%S %Z"),
+    "wind_speed": period["wind"]["speed"],
+    "wind_direction": degrees_to_cardinal(period["wind"]["deg"]),
+    "wind_degrees": period["wind"]["deg"],
+    "wind_gust": period["wind"].get("gust"),
+    "sunrise": sunrise,
+    "sunset": sunset,
+    "temperature": period["main"]["temp"],
+    "icon": convert_icon_code_to_emoji(period["weather"][0]["icon"]),
+}
