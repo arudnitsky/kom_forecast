@@ -92,7 +92,7 @@ def format_opportunity(score: float, forecast: WindForecast, segment_deg: float)
     time_str = forecast["datetime"].strftime("%I:%M %p")
 
     return (
-        f"    {forecast['icon']} | {time_str} | {forecast['temperature']:>3.0f}° | "
+        f"{forecast['icon']} | {time_str} | {forecast['temperature']:>3.0f}° | "
         f"{forecast['wind_speed']:>4.1f} mph from {forecast['wind_direction']:<3} "
         f"| {angle_diff:>3}° off | {score_percent:>3}% favorable"
     )
@@ -104,38 +104,40 @@ def format_day_header(forecast: WindForecast) -> str:
     sunrise_str = forecast["sunrise"].strftime("%I:%M %p")
     sunset_str = forecast["sunset"].strftime("%I:%M %p")
     day_name = date.strftime("%A")
-    return f"\n  {day_name} {date.strftime('%Y-%m-%d')} ({Config.SUNRISE_ICON} {sunrise_str} - {Config.SUNSET_ICON} {sunset_str})"
+    return f"{day_name} {date.strftime('%Y-%m-%d')} ({Config.SUNRISE_ICON} {sunrise_str} - {Config.SUNSET_ICON} {sunset_str})"
+
+
+def print_segment_details(segment: KOMSegment) -> None:
+    """
+    Print segment details and stats.
+    """
+    print(f"{segment.segment_name} {segment.distance} {segment.direction}\n")
+
+    my_speed, speed_diff, kom_speed = calculate_speed_difference_needed(segment)
+    print(f"  KOM  : {segment.kom_holder} {segment.kom_time} {kom_speed:.1f} mph")
+    print(f"  Me   : rank {segment.my_rank} {segment.my_time} {my_speed:.1f} mph")
+
+    time_diff = format_time_difference_needed(segment.kom_time, segment.my_time)
+    print(f"  Need : -{time_diff} min +{speed_diff:.1f} mph ")
 
 
 def print_favorable_segment_opportunities(
     segment: KOMSegment, favorable_opportunities: List[WindForecast]
 ) -> None:
 
-    # Print segment details
-    print(f"\n{segment.segment_name} {segment.distance} {segment.direction}\n")
-
-    # Calculate speeds and difference needed
-    my_speed, speed_diff, kom_speed = calculate_speed_difference_needed(segment)
-    print(f"KOM  : {segment.kom_holder} {segment.kom_time} {kom_speed:.1f} mph")
-    print(f"Me   : rank {segment.my_rank} {segment.my_time} {my_speed:.1f} mph")
-
-    # Calculate and show differences needed
-    time_diff = format_time_difference_needed(segment.kom_time, segment.my_time)
-    print(f"Need : -{time_diff} min +{speed_diff:.1f} mph ")
-
-    print("\nFavorable Conditions:")
-
+    print_segment_details(segment)
+    print()
+    # print("Favorable Conditions:\n")
     # All opportunities have the same date
     _, first_opportunity = favorable_opportunities[0]
-    print(format_day_header(first_opportunity))
-
+    print("  " + format_day_header(first_opportunity))
     for score, forecast in favorable_opportunities:
         opportunity = format_opportunity(
             score, forecast, segment.get_direction_degrees()
         )
-        print(opportunity)
-
-    print("\n" * 2)
+        print("  " + opportunity)
+    print()
+    print()
 
 
 def calculate_wind_alignment_score(
@@ -235,12 +237,17 @@ def main():
         # Get the segments data
         segments = read_kom_segments_from_file()
 
-        print(
-            f"(Config: winds {Config.MIN_WIND_SPEED}+ mph, tolerance {Config.DIRECTION_TOLERANCE}°, {Config.QUALITY_PERCENTAGE}%+ favorability)"
-        )
-        print(f"\nPotential KOM Opportunities:")
-        print("=" * 61)
+        from datetime import datetime, timedelta
 
+        today = datetime.now()
+        five_days_out = today + timedelta(days=5)
+        print(
+            f"5-day KOM Segment Forecast\n"
+            f"{today.strftime('%A, %B %d %Y')} - {five_days_out.strftime('%A, %B %d %Y')}"
+        )
+        print(
+            f"[Config: winds {Config.MIN_WIND_SPEED}+ mph, tolerance {Config.DIRECTION_TOLERANCE}°, {Config.QUALITY_PERCENTAGE}%+ favorability]\n\n"
+        )
         opportunities_found = False
 
         for segment in segments:
