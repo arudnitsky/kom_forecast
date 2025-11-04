@@ -73,7 +73,7 @@ def read_kom_segments_from_file(filepath: str = "kom-list.csv") -> List[KOMSegme
 
 # Example usage
 if __name__ == "__main__":
-    segments = read_kom_segments_from_file()
+    segments = read_kom_segments_from_file("kom-test-list.csv")
     for segment in segments:
         print(f"\nSegment: {segment.segment_name}")
         print(f"Distance: {segment.distance}")

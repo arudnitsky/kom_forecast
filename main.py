@@ -1,6 +1,6 @@
 import math
 from datetime import datetime
-from typing import List, Tuple
+from typing import Dict, List, Tuple
 
 from config import Config
 from get_wind_forecast import WindForecast, get_wind_forecast
@@ -95,40 +95,52 @@ def format_opportunity(score: float, forecast: WindForecast, segment_deg: float)
     )
 
 
-def format_day_header(forecast: WindForecast) -> str:
+def build_day_header(forecast: WindForecast) -> str:
     """Return formatted day header with day name, date, sunrise and sunset."""
+
     date = forecast["datetime"].date()
     sunrise_str = forecast["sunrise"].strftime("%I:%M %p")
     sunset_str = forecast["sunset"].strftime("%I:%M %p")
     day_name = date.strftime("%A")
-    return f"{day_name} {date.strftime('%Y-%m-%d')} ({Config.SUNRISE_ICON} {sunrise_str} - {Config.SUNSET_ICON} {sunset_str})"
+
+    return f"{day_name} {date.strftime('%Y-%m-%d')} ({sunrise_str} - {sunset_str})"
 
 
-def print_segment_details(segment: KOMSegment) -> None:
+def build_segment_stats(segment: KOMSegment) -> Dict[str, str]:
     """
-    Print segment details and stats.
+    Build dictionary for segment stats.
     """
-    print(f"{segment.segment_name} {segment.distance} {segment.direction}\n")
 
+    # Time and speed difference needed
     my_speed, speed_diff, kom_speed = calculate_speed_difference_needed(segment)
-    print(f"  KOM  : {segment.kom_holder} {segment.kom_time} {kom_speed:.1f} mph")
-    print(f"  Me   : rank {segment.my_rank} {segment.my_time} {my_speed:.1f} mph")
-
     time_diff = format_time_difference_needed(segment.kom_time, segment.my_time)
-    print(f"  Need : -{time_diff} min +{speed_diff:.1f} mph ")
+
+    segment_stats = {
+        "header": f"{segment.segment_name} {segment.distance} {segment.direction}",
+        "kom": f"KOM  : {segment.kom_holder} {segment.kom_time} {kom_speed:.1f} mph",
+        "me": f"Me   : rank {segment.my_rank} {segment.my_time} {my_speed:.1f} mph",
+        "needed": f"Need : -{time_diff} min +{speed_diff:.1f} mph",
+    }
+
+    return segment_stats
 
 
 def print_favorable_segment_opportunities(
-    segment: KOMSegment, favorable_opportunities: List[WindForecast]
+    segment: KOMSegment, favorable_opportunities: List[Tuple[float, WindForecast]]
 ) -> None:
-
-    print_segment_details(segment)
+    segment_stats = build_segment_stats(segment)
+    print(segment_stats["header"] + "\n")
+    print("  " + segment_stats["kom"])
+    print("  " + segment_stats["me"])
+    print("  " + segment_stats["needed"])
     print()
-    # print("Favorable Conditions:\n")
-    # All opportunities have the same date
-    _, first_opportunity = favorable_opportunities[0]
-    print("  " + format_day_header(first_opportunity))
+
+    last_date = None
     for score, forecast in favorable_opportunities:
+        current_date = forecast["datetime"].date()
+        if last_date != current_date:
+            print("\n  " + build_day_header(forecast))
+            last_date = current_date
         opportunity = format_opportunity(
             score, forecast, segment.get_direction_degrees()
         )
@@ -221,7 +233,21 @@ def find_favorable_wind_conditions_for_a_segment(
 
         favorable_conditions.append((overall_score, forecast))
 
-    return sorted(favorable_conditions, reverse=True, key=lambda x: x[0])
+    # First, sort by date ascending
+    favorable_conditions_by_date = {}
+    for score, forecast in favorable_conditions:
+        date = forecast["datetime"].date()
+        favorable_conditions_by_date.setdefault(date, []).append((score, forecast))
+
+    # Then, sort by score descending within each date
+    sorted_by_date_then_by_score = []
+    for date in sorted(favorable_conditions_by_date.keys()):
+        sorted_by_score = sorted(
+            favorable_conditions_by_date[date], reverse=True, key=lambda x: x[0]
+        )
+        sorted_by_date_then_by_score.extend(sorted_by_score)
+
+    return sorted_by_date_then_by_score
 
 
 def main():
@@ -232,7 +258,7 @@ def main():
             raise RuntimeError("Failed to get wind forecast data")
 
         # Get the segments data
-        segments = read_kom_segments_from_file()
+        segments = read_kom_segments_from_file("kom-list.csv")
 
         from datetime import datetime, timedelta
 

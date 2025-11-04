@@ -10,6 +10,7 @@ from config import Config
 WindForecast: TypeAlias = Dict[str, Any]
 FavorableWindForecast: TypeAlias = Tuple[float, WindForecast]
 
+
 def degrees_to_cardinal(degrees: float) -> str:
     """Convert degrees to cardinal direction"""
     directions = [
@@ -117,9 +118,9 @@ def get_sunrise_sunset_data(
     return sun_times
 
 
-def persist_forecast(result: List[Dict[str, Any]]) -> None:
+def persist_forecast(result: List[WindForecast]) -> None:
     """Persist forecast to JSON (datetime fields -> ISO strings)."""
-    serializable: List[Dict[str, Any]] = []
+    serializable: List[WindForecast] = []
     for item in result:
         serializable.append(
             {
@@ -138,9 +139,9 @@ def persist_forecast(result: List[Dict[str, Any]]) -> None:
         json.dump(serializable, f, indent=2)
 
 
-def reload_forecast() -> List[Dict[str, Any]]:
+def reload_forecast() -> List[WindForecast]:
     """Load persisted forecast JSON and restore timezone-aware datetimes."""
-    restored: List[Dict[str, Any]] = []
+    restored: List[WindForecast] = []
     with open(Config.CACHE_FILE, "r") as f:
         loaded = json.load(f)
 
@@ -171,12 +172,14 @@ def reload_forecast() -> List[Dict[str, Any]]:
     return restored
 
 
-def get_wind_forecast() -> List[Dict[str, Any]]:
+def get_wind_forecast() -> List[WindForecast]:
     """Get wind forecast for next 5 days. Each entry contains wind data and sunrise/sunset times for a 3-hour period."""
 
-    # return reload_forecast()
+    # cached_forecast = reload_forecast()
+    # print_short_forecast(reload_forecast())
+    # return cached_forecast
 
-    result: List[Dict[str, Any]] = []
+    result: List[WindForecast] = []
 
     # Start from tomorrow at midnight (local timezone)
     now = datetime.now(tz=ZoneInfo(Config.TIMEZONE))
@@ -230,12 +233,11 @@ def get_wind_forecast() -> List[Dict[str, Any]]:
 
     # Save to cache to allow testing without repeated API calls
     persist_forecast(result)
-    # return reload_forecast()
 
     return result
 
 
-def print_forecast(forecast_for_datetime: List[Dict[str, Any]]) -> None:
+def print_forecast(forecast_for_datetime: List[WindForecast]) -> None:
     """Print formatted forecast data"""
     print("\nDaily Maximum Wind Speeds:")
     print("=" * 50)
@@ -252,6 +254,14 @@ def print_forecast(forecast_for_datetime: List[Dict[str, Any]]) -> None:
         print(f"Sunrise:     {data['sunrise'].strftime('%H:%M:%S %Z')}")
         print(f"Sunset:      {data['sunset'].strftime('%H:%M:%S %Z')}")
         print("-" * 50)
+
+
+def print_short_forecast(forecast_for_datetime: List[WindForecast]) -> None:
+    """Print short formatted forecast data"""
+    for data in forecast_for_datetime:
+        print(
+            f"{data['date_string']}  Maximum Wind: {data['wind_speed']:>5.1f} mph from the {data['wind_direction']:<4} ({data['wind_degrees']}°)"
+        )
 
 
 if __name__ == "__main__":
