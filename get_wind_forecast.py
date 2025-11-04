@@ -10,6 +10,9 @@ from config import Config
 WindForecast: TypeAlias = Dict[str, Any]
 FavorableWindForecast: TypeAlias = Tuple[float, WindForecast]
 
+# Cached forecast file for testing
+CACHE_FILE = "forecast_cache.json"
+
 
 def degrees_to_cardinal(degrees: float) -> str:
     """Convert degrees to cardinal direction"""
@@ -135,14 +138,14 @@ def persist_forecast(result: List[WindForecast]) -> None:
             }
         )
 
-    with open(Config.CACHE_FILE, "w") as f:
+    with open(CACHE_FILE, "w") as f:
         json.dump(serializable, f, indent=2)
 
 
 def reload_forecast() -> List[WindForecast]:
     """Load persisted forecast JSON and restore timezone-aware datetimes."""
     restored: List[WindForecast] = []
-    with open(Config.CACHE_FILE, "r") as f:
+    with open(CACHE_FILE, "r") as f:
         loaded = json.load(f)
 
     for item in loaded:

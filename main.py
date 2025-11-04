@@ -116,9 +116,9 @@ def build_segment_stats(segment: KOMSegment) -> Dict[str, str]:
     time_diff = format_time_difference_needed(segment.kom_time, segment.my_time)
 
     segment_stats = {
-        "header": f"{segment.segment_name} {segment.distance} {segment.direction}",
-        "kom": f"KOM  : {segment.kom_holder} {segment.kom_time} {kom_speed:.1f} mph",
-        "me": f"Me   : rank {segment.my_rank} {segment.my_time} {my_speed:.1f} mph",
+        "header": f"{segment.segment_name}, {segment.distance}, heading: {segment.direction}",
+        "kom": f"KOM  : {segment.kom_holder}, {segment.kom_time}, {kom_speed:.1f} mph",
+        "me": f"Me   : rank {segment.my_rank}, {segment.my_time}, {my_speed:.1f} mph",
         "needed": f"Need : -{time_diff} min +{speed_diff:.1f} mph",
     }
 
@@ -133,7 +133,6 @@ def print_favorable_segment_opportunities(
     print("  " + segment_stats["kom"])
     print("  " + segment_stats["me"])
     print("  " + segment_stats["needed"])
-    print()
 
     last_date = None
     for score, forecast in favorable_opportunities:
@@ -219,8 +218,9 @@ def find_favorable_wind_conditions_for_a_segment(
         if wind_alignment_score == 0.0:
             continue
 
-        # Normalize wind speed (0-1, capped at Config.TOP_WIND_SPEED)
-        wind_speed_score = min(forecast["wind_speed"] / Config.TOP_WIND_SPEED, 1.0)
+        # Normalize wind speed (0-1)
+        TOP_WIND_SPEED = 20.0  # Wind speed at which favorability caps (mph)
+        wind_speed_score = min(forecast["wind_speed"] / TOP_WIND_SPEED, 1.0)
 
         # Weight speed more heavily than direction
         # Direction: 30%, Speed: 70%
