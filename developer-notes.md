@@ -1,7 +1,7 @@
-# Developer notes for segment-notifier
+# Developer notes for KOM-Forecast
 
 uv self update
-uv init segment-notifier
+uv init kom-forecast
 uv add requests
 uv run main.py
 

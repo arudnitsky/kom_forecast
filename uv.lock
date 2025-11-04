@@ -77,7 +77,7 @@ wheels = [
 ]
 
 [[package]]
-name = "segment-notifier"
+name = "kom-forecast"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
