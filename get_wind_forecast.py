@@ -186,9 +186,7 @@ def get_wind_forecast() -> List[WindForecast]:
 
     # Start from tomorrow at midnight (local timezone)
     now = datetime.now(tz=ZoneInfo(Config.TIMEZONE))
-    start_date = (now + timedelta(days=1)).replace(
-        hour=0, minute=0, second=0, microsecond=0
-    )
+    start_date = now.replace(hour=0, minute=0, second=0, microsecond=0)
 
     # Get sunrise/sunset data for the next 5 days
     sun_times = get_sunrise_sunset_data(start_date, 5)
