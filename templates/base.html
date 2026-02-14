@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KOM-Forecast</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="/static/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="bi bi-wind me-2"></i>KOM-Forecast
+            </a>
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#settingsModal"
+                    title="Settings">
+                    <i class="bi bi-gear-fill"></i>
+                </button>
+                <button id="theme-toggle" class="btn btn-sm btn-outline-secondary" title="Toggle theme">
+                    <i class="bi bi-moon-fill" id="theme-icon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-4">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Settings Modal -->
+    <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="settingsModalLabel">
+                        <i class="bi bi-sliders me-2"></i>Configuration
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="settings-form">
+                        <div class="mb-3">
+                            <label for="min_wind_speed" class="form-label">
+                                Minimum Wind Speed (mph)
+                            </label>
+                            <input type="number" class="form-control" id="min_wind_speed" step="0.5" min="0" max="50"
+                                value="{{ min_wind_speed }}">
+                            <div class="form-text">Only show opportunities with wind at or above this speed.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="direction_tolerance" class="form-label">
+                                Direction Tolerance (degrees)
+                            </label>
+                            <input type="number" class="form-control" id="direction_tolerance" step="5" min="0"
+                                max="180" value="{{ direction_tolerance }}">
+                            <div class="form-text">Maximum degrees off perfect tailwind alignment.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="quality_percentage" class="form-label">
+                                Minimum Favorability (%)
+                            </label>
+                            <input type="number" class="form-control" id="quality_percentage" step="5" min="0" max="100"
+                                value="{{ quality_percentage }}">
+                            <div class="form-text">Only show opportunities scoring at or above this percentage.</div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer d-flex justify-content-between">
+                    <button type="button" class="btn btn-outline-danger btn-sm" id="reset-settings">
+                        <i class="bi bi-arrow-counterclockwise me-1"></i>Reset to Defaults
+                    </button>
+                    <div>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="save-settings">
+                            <i class="bi bi-check-lg me-1"></i>Save &amp; Reload
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-4 mt-4 border-top">
+        <small class="text-body-secondary">
+            KOM-Forecast &middot; Wind data from OpenWeatherMap &middot; Daylight from SunriseSunset.io
+        </small>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/app.js"></script>
+</body>
+
+</html>

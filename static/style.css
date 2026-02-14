@@ -1,0 +1,289 @@
+/* ========================================================
+   CSS Custom Properties - Light Theme (default)
+   ======================================================== */
+:root,
+[data-bs-theme="light"] {
+    /* Brand palette */
+    --kom-primary: #0d6efd;
+    --kom-primary-hover: #0b5ed7;
+    --kom-accent: #198754;
+
+    /* Surface colors */
+    --kom-bg: #f8f9fa;
+    --kom-surface: #ffffff;
+    --kom-surface-alt: #f1f3f5;
+    --kom-border: #dee2e6;
+
+    /* Text */
+    --kom-text: #212529;
+    --kom-text-secondary: #6c757d;
+    --kom-text-muted: #adb5bd;
+
+    /* Navbar */
+    --kom-navbar-bg: #ffffff;
+    --kom-navbar-border: #dee2e6;
+    --kom-navbar-text: #212529;
+
+    /* Cards */
+    --kom-card-bg: #ffffff;
+    --kom-card-header-bg: #f8f9fa;
+    --kom-card-border: #dee2e6;
+    --kom-card-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+    /* Stat boxes */
+    --kom-stat-bg: #f8f9fa;
+    --kom-stat-border: #e9ecef;
+    --kom-stat-needed-bg: #fff3cd;
+    --kom-stat-needed-border: #ffc107;
+
+    /* Config badges */
+    --kom-config-badge-bg: #e9ecef;
+    --kom-config-badge-text: #495057;
+
+    /* Rank badge */
+    --kom-rank-bg: #6f42c1;
+    --kom-rank-text: #ffffff;
+
+    /* Day header */
+    --kom-day-header-bg: #e9ecef;
+    --kom-day-header-text: #212529;
+
+    /* Table */
+    --kom-table-hover: #f1f3f5;
+
+    /* Typography */
+    --kom-font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --kom-font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+    --kom-font-size-base: 0.95rem;
+    --kom-font-size-sm: 0.85rem;
+    --kom-font-size-xs: 0.75rem;
+    --kom-line-height: 1.5;
+}
+
+/* ========================================================
+   CSS Custom Properties - Dark Theme
+   ======================================================== */
+[data-bs-theme="dark"] {
+    --kom-bg: #1a1d21;
+    --kom-surface: #212529;
+    --kom-surface-alt: #2b3035;
+    --kom-border: #495057;
+
+    --kom-text: #e9ecef;
+    --kom-text-secondary: #adb5bd;
+    --kom-text-muted: #6c757d;
+
+    --kom-navbar-bg: #212529;
+    --kom-navbar-border: #343a40;
+    --kom-navbar-text: #e9ecef;
+
+    --kom-card-bg: #2b3035;
+    --kom-card-header-bg: #343a40;
+    --kom-card-border: #495057;
+    --kom-card-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+    --kom-stat-bg: #343a40;
+    --kom-stat-border: #495057;
+    --kom-stat-needed-bg: #664d03;
+    --kom-stat-needed-border: #997404;
+
+    --kom-config-badge-bg: #343a40;
+    --kom-config-badge-text: #adb5bd;
+
+    --kom-rank-bg: #7c4dff;
+    --kom-rank-text: #ffffff;
+
+    --kom-day-header-bg: #343a40;
+    --kom-day-header-text: #e9ecef;
+
+    --kom-table-hover: #343a40;
+}
+
+/* ========================================================
+   Base
+   ======================================================== */
+body {
+    font-family: var(--kom-font-family);
+    font-size: var(--kom-font-size-base);
+    line-height: var(--kom-line-height);
+    background-color: var(--kom-bg);
+    color: var(--kom-text);
+}
+
+/* ========================================================
+   Navbar
+   ======================================================== */
+.navbar {
+    background-color: var(--kom-navbar-bg);
+    border-bottom: 1px solid var(--kom-navbar-border);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.navbar-brand {
+    color: var(--kom-navbar-text) !important;
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+}
+
+/* ========================================================
+   Config Badges
+   ======================================================== */
+.badge.bg-config {
+    background-color: var(--kom-config-badge-bg) !important;
+    color: var(--kom-config-badge-text);
+    font-weight: 500;
+    font-size: var(--kom-font-size-sm);
+}
+
+.badge.bg-rank {
+    background-color: var(--kom-rank-bg) !important;
+    color: var(--kom-rank-text);
+    font-size: var(--kom-font-size-sm);
+}
+
+/* ========================================================
+   Segment Cards
+   ======================================================== */
+.segment-card {
+    background-color: var(--kom-card-bg);
+    border: 1px solid var(--kom-card-border);
+    border-radius: 0.75rem;
+    box-shadow: var(--kom-card-shadow);
+    overflow: hidden;
+    transition: box-shadow 0.2s ease;
+}
+
+.segment-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.segment-card .card-header {
+    background-color: var(--kom-card-header-bg);
+    border-bottom: 1px solid var(--kom-card-border);
+    padding: 1rem 1.25rem;
+}
+
+.segment-card .card-body {
+    padding: 1.25rem;
+}
+
+/* ========================================================
+   Stat Boxes
+   ======================================================== */
+.stat-box {
+    background-color: var(--kom-stat-bg);
+    border: 1px solid var(--kom-stat-border);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    text-align: center;
+    height: 100%;
+}
+
+.stat-box-needed {
+    background-color: var(--kom-stat-needed-bg);
+    border-color: var(--kom-stat-needed-border);
+}
+
+.stat-label {
+    font-size: var(--kom-font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--kom-text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+.stat-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--kom-text);
+    font-family: var(--kom-font-mono);
+}
+
+.stat-detail {
+    font-size: var(--kom-font-size-sm);
+    color: var(--kom-text-secondary);
+    margin-top: 0.15rem;
+}
+
+/* ========================================================
+   Day Groups
+   ======================================================== */
+.day-header {
+    background-color: var(--kom-day-header-bg);
+    color: var(--kom-day-header-text);
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    font-size: var(--kom-font-size-sm);
+}
+
+/* ========================================================
+   Opportunity Table
+   ======================================================== */
+.opportunity-table {
+    font-size: var(--kom-font-size-sm);
+}
+
+.opportunity-table th {
+    font-weight: 600;
+    font-size: var(--kom-font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--kom-text-secondary);
+    border-bottom-width: 2px;
+    white-space: nowrap;
+}
+
+.opportunity-table td {
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.opportunity-table tbody tr:hover {
+    background-color: var(--kom-table-hover);
+}
+
+.progress {
+    background-color: var(--kom-stat-border);
+    border-radius: 1rem;
+}
+
+/* ========================================================
+   Modal
+   ======================================================== */
+.modal-content {
+    background-color: var(--kom-surface);
+    border: 1px solid var(--kom-card-border);
+}
+
+.modal-header {
+    border-bottom-color: var(--kom-card-border);
+}
+
+.modal-footer {
+    border-top-color: var(--kom-card-border);
+}
+
+/* ========================================================
+   Footer
+   ======================================================== */
+footer {
+    border-color: var(--kom-border) !important;
+}
+
+/* ========================================================
+   Responsive Adjustments
+   ======================================================== */
+@media (max-width: 768px) {
+    .stat-value {
+        font-size: 1rem;
+    }
+
+    .opportunity-table {
+        font-size: var(--kom-font-size-xs);
+    }
+
+    .day-header {
+        font-size: var(--kom-font-size-xs);
+    }
+}
