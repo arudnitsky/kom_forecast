@@ -1,0 +1,47 @@
+{
+  "id": 4793989,
+  "resource_state": 3,
+  "name": " Battle Creek River Valley",
+  "activity_type": "Ride",
+  "distance": 1422.2,
+  "average_grade": -0.2,
+  "maximum_grade": 12.6,
+  "elevation_high": 287.2,
+  "elevation_low": 270.2,
+  "start_latlng": [42.538544, -84.820335],
+  "end_latlng": [42.538469, -84.803009],
+  "elevation_profile": "https://d3o5xota0a1fcr.cloudfront.net/v6/charts/JV4B5SCXUGOQ3DQQFVSSGOF537EJSFK4GESIW3Q3L53HZHE7LNQL5FLFB5XYP5OZH5RYVBW2KIVY5JYCMUEAPKY=",
+  "elevation_profiles": {
+    "light_url": "https://d3o5xota0a1fcr.cloudfront.net/v6/charts/JV4B5SCXUGOQ3DQQFVSSGOF537EJSFK4GESIW3Q3L53HZHE7LNQL5FLFB5XYP5OZH5RYVBW2KIVY5JYCMUEAPKY=",
+    "dark_url": "https://d3o5xota0a1fcr.cloudfront.net/v6/charts/ZU22XMRDP24XIW65E2YKWVIS3LZN4VNBU5XB4OK37FNTUNRJRZXFDPQGAW5TU6ZW626U5QSFYIUXZIQCW3RZHZQ="
+  },
+  "climb_category": 0,
+  "city": "Charlotte",
+  "state": "MI",
+  "country": "United States",
+  "private": false,
+  "hazardous": false,
+  "starred": true,
+  "created_at": "2013-07-19T23:54:05Z",
+  "updated_at": "2021-05-15T02:13:34Z",
+  "total_elevation_gain": 14,
+  "map": {"id": "s4793989", "polyline": "{hsbGbnudO@ge@B{CAuFBaCEmD?}@BY@wGEuEHoIC_EFiL", "resource_state": 3},
+  "effort_count": 583,
+  "athlete_count": 91,
+  "star_count": 9,
+  "athlete_segment_stats": {
+    "pr_elapsed_time"       : 120,
+    "pr_date"               : "2024-10-06",
+    "pr_visibility"         : "everyone",
+    "pr_activity_id"        : 12593651175,
+    "pr_activity_visibility": "everyone",
+    "effort_count"          : 32
+  },
+  "xoms": {
+    "kom"        : "2:00",
+    "qom"        : "2:33",
+    "overall"    : "2:00",
+    "destination": {"href": "strava://segments/4793989/leaderboard", "type": "overall", "name": "All-Time"}
+  },
+  "local_legend": null
+}
