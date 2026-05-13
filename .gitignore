@@ -10,4 +10,4 @@ wheels/
 .venv
 
 forecast_cache.json
-
+.env

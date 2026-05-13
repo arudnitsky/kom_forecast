@@ -1,0 +1,15 @@
+services:
+  kom-forecast:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kom-forecast
+    ports:
+      - "8030:8030"
+    environment:
+      # Set your OpenWeatherMap API key here or use .env file
+      - OPENWEATHER_API_KEY=${OPENWEATHER_API_KEY}
+    restart: unless-stopped
+    # Optional: Mount forecast cache to persist between restarts
+    # volumes:
+    #   - ./forecast_cache.json:/app/forecast_cache.json
