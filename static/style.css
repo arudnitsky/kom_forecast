@@ -287,3 +287,12 @@ footer {
         font-size: var(--kom-font-size-xs);
     }
 }
+
+/* Site icon (used in navbar and favicon) */
+.site-icon {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    vertical-align: middle;
+    border-radius: 4px;
+}
