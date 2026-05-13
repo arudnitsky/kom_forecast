@@ -206,9 +206,9 @@ async def index(request: Request) -> HTMLResponse:
         error_message = str(e)
 
     return templates.TemplateResponse(
-        "index.html",
-        {
-            "request": request,
+        request=request,
+        name="index.html",
+        context={
             "segment_views": segment_views,
             "date_range_start": today.strftime("%A, %B %d %Y"),
             "date_range_end": five_days_out.strftime("%A, %B %d %Y"),
